@@ -1,0 +1,50 @@
+{% extends "home/base.html" %}
+{% block title %}博客所有文章 - {{ BLOG_CONFIG.BLOG_NAME }}{% endblock %}
+
+{% block content %}
+<section class="archives">
+    {% with idx=0 %}
+    {% for year, posts in archives %}
+        {% with idx|add:"1" as idx %}
+        <h4 class="downarch">{{year}} +</h4>
+        {% if idx <= 4 %}
+            <ul class="posts-list">
+                {% for post in posts %}
+                <li class="archiveli">
+                <span>{{post.last_modify_date}}</span><a href="{% url 'Piper:post' post.title %}">{{post.title}}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <ul class="hidearch posts-list">
+            {% for post in posts %}
+                <li class="archiveli">
+                <span>{{post.last_modify_date}}</span><a href="{% url 'Piper:post' post.title %}">{{post.title}}</a>
+                </li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+        {% endwith %}
+    {% endfor %}
+    {% endwith %}
+</section>
+<hr>
+<blockquote>
+  <small>{{count}}+篇文章</small>
+</blockquote>
+{% endblock %}
+
+{% block bottom %}
+<script type="text/javascript" src="//upcdn.b0.upaiyun.com/libs/jquery/jquery-2.0.3.min.js"></script>
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+    $(document).ready(function() {
+        $(".archives ul.hidearch").hide();
+        $(".archives h4.downarch").click(function() {
+            $(this).next().slideToggle('fast');
+            return false;
+        });
+    });
+})
+</script>
+{% endblock %}

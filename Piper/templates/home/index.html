@@ -1,0 +1,69 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{BLOG_CONFIG.BLOG_NAME}}</title>
+    <meta name="author" content="{{ BLOG_CONFIG.USER_NAME }}">
+    <meta name="description" content=" {{ BLOG_CONFIG.BLOG_DESC }} " />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <link rel="shortcut icon" type="image/ico" href="{% static "favicon.ico" %}">
+{#    <link href="/blog/feed.xml" rel="alternate" type="application/atom+xml">#}
+    <link href="{% static "style2/style.css" %}" rel="stylesheet" type="text/css" media="all">
+    <link href="{% static "style2/solarized.css" %}" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    {% if BLOG_CONFIG.BLOG_BG %}
+    <img class="bg-image" src="{% static BLOG_CONFIG.BLOG_BG %}" />
+    {% endif %}
+
+    <header id="header" class="clearfix header-fixed-top">
+      <div class="nav">
+       {% include "home/header.html" %}
+      </div>
+    </header>
+
+    <div id="home-container">
+        <div id="container" style="float: left;margin-top:25px">
+          <div class="content clearfix">
+          {% block content %}
+            {% for post in posts %}
+                <h2>
+                    <a href="{% url 'Piper:post' post.title %}">{{ post.title }}</a>
+                    <small class="date-right">{{ post.post_date }}</small>
+                </h2>
+                <article>
+                {{ post.body_html| safe}}
+                </article>
+                <hr>
+            {% endfor %}
+          {% endblock %}
+          </div>
+
+          {% block bottom %}
+          {% endblock %}
+        </div>
+        <div class="curtain">
+            <div class="avater">
+              <a href="/">
+                <img src="{% static "avater.jpg" %}"/>
+              </a>
+            </div>
+            <h2>Recent Post</h2>
+            <ul>
+                {% for post in recents %}
+                <li>
+                    <span>{{post.post_date|slice:":10"}}</span> &raquo;
+                    <a href="{% url 'Piper:post' post.title %}">{{post.title}}</a>
+                </li>
+                {% endfor %}
+            </ul>
+            <div class="footer">
+          &copy; 2016-2019 | <a href="/" title="By George1994">{{ BLOG_CONFIG.USER_NAME }}'s Blog</a> with
+          <a href="/"> Piper</a>.
+            </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,35 @@
+{% extends "home/base.html" %}
+{% load staticfiles %}
+{% block title %}{{post.title}} - {{BLOG_CONFIG.BLOG_NAME}}{% endblock %}
+{#{% block head %}{{ post.body[0:168]|striptags|escape }}{% endblock %}#}
+
+{# 设置背景图片，后面会设置成背景图片不变，前面为博客的图片 #}
+{% block cover %}
+    {% if post.cover %}
+        <img class="bg-image" src="{{post.cover}}" />
+    {% elif BLOG_CONFIG.BLOG_BG %}
+        <img class="bg-image" src="{% static BLOG_CONFIG.BLOG_BG %}" />
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <article>
+        <h2>
+            <a href="#">{{post.title}}</a>
+            <small class="date-right">{{post.post_date}}</small>
+        </h2>
+        <div class="tag-list">Tags:
+        {% for tag in post.tag_arr %}
+            <a href="{% url 'Piper:tag' tag.name %}">#{{tag.name}}</a>
+        {% endfor %}
+        </div>
+        <div>
+        {{ post.body_html| safe}}
+        </div>
+    </article>
+    <blockquote>
+        <small>
+{#        {{picky.published}}#}
+        </small>
+    </blockquote>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>{% block title %} {{ BLOG_CONFIG.BLOG_NAME }} {% endblock %}</title>
+    <meta name="author" content="{{ BLOG_CONFIG.USER_NAME }}">
+    <meta name="description" content="{% block head %} {{ BLOG_CONFIG.USER_DESC }} {% endblock %}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <link rel="shortcut icon" type="image/ico" href="{% static "favicon.ico" %}">
+{#    <link href="./feed.xml" rel="alternate" type="application/atom+xml">#}
+    <link href="{% static "style2/style.css" %}" rel="stylesheet" type="text/css" media="all">
+    <link href="{% static "style2/solarized.css" %}" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    {% block cover %}
+      {% if BLOG_CONFIG.BLOG_BG %}
+      <img class="bg-image" src="{% static BLOG_CONFIG.BLOG_BG %}" />
+      {% endif %}
+    {% endblock %}
+
+    <header id="header" class="clearfix header-fixed-top base-header">
+      <div class="nav">
+        {% include "home/header.html" %}
+      </div>
+    </header>
+
+    <div id="container">
+      <div class="content clearfix">
+      {% block content %}{% endblock %}
+      </div>
+      <footer id="footer" class="top-box clearfix">
+        &copy; 2016-2019  | <a href="/" title="By George1994">{{ BLOG_CONFIG.USER_NAME }}'s Blog</a> with
+        <a href="/"> Piper </a>.
+        <a href="javascript:scroll(0,0)" class="to-top">TOP</a>
+      </footer>
+      {% block bottom %}
+      {% endblock %}
+    </div>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+{% extends "home/base.html" %}
+{% block title %}在「{{name}}」下的所有文章 - {{config.blogname}}{% endblock %}
+
+{% block content %}
+<h3>在「{{name}}」下的所有文章</h3>
+<section>
+    <ul class="posts-list">
+       {%for post in posts %}
+        <li>
+          <span>{{post.last_modify_date}}</span><a href="{% url "Piper:post" post.title %}">{{ post.title }}</a>
+        </li>
+       {% endfor %}
+    </ul>
+</section>
+<hr>
+<blockquote>
+  <small><a href="/" title="Posts">{{ posts|length }}+篇文章</a></small>
+</blockquote>
+{% endblock %}

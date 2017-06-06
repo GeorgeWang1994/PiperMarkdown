@@ -1,0 +1,16 @@
+{% extends "home/base.html" %}
+{% block title %}博客所有标签 - {{ BLOG_CONFIG.BLOG_NAME }}{% endblock %}
+{% block content %}
+  <h3>所有标签</h3>
+    <section class="group-tags">
+      <ul class="tag-box">
+      {% for name, posts in tags.items %}
+        <li><a href="{% url 'Piper:tag' name %}">{{ name }} <span>{{ posts|length }}</span></a></li>
+      {% endfor %}
+      </ul>
+    </section>
+    <hr>
+    <blockquote>
+      <small><a href="/" title="Tags">{{ tags|length }}+个标签</a></small>
+    </blockquote>
+{% endblock %}

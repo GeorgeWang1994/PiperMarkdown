@@ -5,7 +5,7 @@
     <section class="group-tags">
       <ul class="tag-box">
       {% for name, posts in tags.items %}
-        <li><a href="{% url 'Piper:tag' name %}">{{ name }} <span>{{ posts|length }}</span></a></li>
+        <li><a href="{% url 'Piper:taglist' name %}">{{ name }} <span>{{ posts|length }}</span></a></li>
       {% endfor %}
       </ul>
     </section>

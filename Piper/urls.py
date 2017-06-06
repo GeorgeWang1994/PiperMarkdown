@@ -9,7 +9,7 @@ urlpatterns = [
     url(r'^link/$', piper_views.link, name='link'),
     url(r'^projects/$', piper_views.projects, name='projects'),
     url(r'^archives/$', piper_views.archives, name='archives'),
-    url(r'^tag/(?P<tag_name>.*)$', piper_views.tag, name='tag'),
+    url(r'^taglist/(?P<tag_name>.*)$', piper_views.taglist, name='taglist'),
     url(r'^taglist/$', piper_views.taglist, name='taglist'),
-    url(r'^post/(?P<title>.*)$', piper_views.post, name='post'),
+    url(r'^posts/(?P<title>.*)$', piper_views.posts, name='posts'),
 ]

@@ -20,7 +20,7 @@
         </h2>
         <div class="tag-list">Tags:
         {% for tag in post.tag_arr %}
-            <a href="{% url 'Piper:tag' tag.name %}">#{{tag.name}}</a>
+            <a href="{% url 'Piper:taglist' tag.name %}">#{{tag.name}}</a>
         {% endfor %}
         </div>
         <div>

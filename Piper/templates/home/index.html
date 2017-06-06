@@ -30,7 +30,7 @@
           {% block content %}
             {% for post in posts %}
                 <h2>
-                    <a href="{% url 'Piper:post' post.title %}">{{ post.title }}</a>
+                    <a href="{% url 'Piper:posts' post.title %}">{{ post.title }}</a>
                     <small class="date-right">{{ post.post_date }}</small>
                 </h2>
                 <article>
@@ -55,7 +55,7 @@
                 {% for post in recents %}
                 <li>
                     <span>{{post.post_date|slice:":10"}}</span> &raquo;
-                    <a href="{% url 'Piper:post' post.title %}">{{post.title}}</a>
+                    <a href="{% url 'Piper:posts' post.title %}">{{post.title}}</a>
                 </li>
                 {% endfor %}
             </ul>

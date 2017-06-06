@@ -11,7 +11,7 @@
             <ul class="posts-list">
                 {% for post in posts %}
                 <li class="archiveli">
-                <span>{{post.last_modify_date}}</span><a href="{% url 'Piper:post' post.title %}">{{post.title}}</a>
+                <span>{{post.last_modify_date}}</span><a href="{% url 'Piper:posts' post.title %}">{{post.title}}</a>
                 </li>
                 {% endfor %}
             </ul>
@@ -19,7 +19,7 @@
             <ul class="hidearch posts-list">
             {% for post in posts %}
                 <li class="archiveli">
-                <span>{{post.last_modify_date}}</span><a href="{% url 'Piper:post' post.title %}">{{post.title}}</a>
+                <span>{{post.last_modify_date}}</span><a href="{% url 'Piper:posts' post.title %}">{{post.title}}</a>
                 </li>
             {% endfor %}
             </ul>

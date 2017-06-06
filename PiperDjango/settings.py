@@ -15,8 +15,8 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
-# STATIC_ROOT = "/Users/wangdading/Documents/GitProject/PiperDjango/Piper/static/"
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+STATIC_ROOT = "/Users/wangdading/Documents/GitProject/PiperDjango/Piper/static/"
 
 MENU_DIR = os.path.join(BASE_DIR, 'Piper/static/menu')
 
@@ -28,7 +28,7 @@ MENU_DIR = os.path.join(BASE_DIR, 'Piper/static/menu')
 SECRET_KEY = '#dlufc-^qcrqno@p8y+jg)-u_try@2+)2l9%j4%45wk0+v-vr%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     # '.example.com',  # Allow domain and subdomains
@@ -132,13 +132,18 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# STATICFILES_DIRS = (
+#     '/Users/wangdading/Documents/GitProject/PiperDjango/Piper/static/',
+# )
+
 
 BLOG_CONFIG = {
-    'BLOG_NAME': "George1994",
-    'BLOG_DESC': "George1994 is great",
-    'BLOG_ICON': "favicon.ico",
-    'BLOG_BG': "background.jpg",
-    'USER_NAME': "George1994",
-    'USER_ICON': "avater.jpg",
-    'USER_DESC': "George1994 is great man",
+    'BLOG_NAME': 'George1994',
+    'BLOG_DESC': 'George1994 is great',
+    'BLOG_ICON': 'favicon.ico',
+    'BLOG_BG': 'background.jpg',
+    'USER_NAME': 'George1994',
+    'USER_ICON': 'avater.jpg',
+    'USER_DESC': 'George1994 is great man',
+    'GITHUB_SITE' : '',
 }

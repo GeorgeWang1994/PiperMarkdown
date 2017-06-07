@@ -137,6 +137,12 @@ STATIC_URL = '/static/'
 # )
 
 
+GIT_CONFIG = {
+    'GIT_SITE': 'https://github.com/1414648814',
+    'GIT_REPO': '1414648814.github.io',
+    'GIT_BRANCH': 'master',
+}
+
 BLOG_CONFIG = {
     'BLOG_NAME': 'George1994',
     'BLOG_DESC': 'George1994 is great',
@@ -145,5 +151,4 @@ BLOG_CONFIG = {
     'USER_NAME': 'George1994',
     'USER_ICON': 'avater.jpg',
     'USER_DESC': 'George1994 is great man',
-    'GITHUB_SITE' : '',
 }

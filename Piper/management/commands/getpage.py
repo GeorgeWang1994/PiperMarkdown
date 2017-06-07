@@ -16,6 +16,15 @@ class Command(BaseCommand):
         super(Command, self).__init__(*args, **kwargs)
         self.post_dir = os.path.join(BASE_DIR, 'posts')
 
+        self.index_template = get_template('home/index.html')
+        self.post_template = get_template('home/post.html')
+        self.taglist_template = get_template('home/taglist.html')
+        self.tag_template = get_template('home/tag.html')
+        self.notfound_template = get_template('home/e404.html')
+        self.archives_template = get_template('home/archives.html')
+
+    def handle(self, **options):
+
         if os.path.exists(BASE_DIR + '/public'):
             removeFolders(BASE_DIR + '/public')
         os.mkdir(BASE_DIR + '/public')
@@ -28,14 +37,6 @@ class Command(BaseCommand):
         os.mkdir(os.path.join(self.public_dir, 'posts'))
         self.public_post_dir = os.path.join(self.public_dir, 'posts')
 
-        self.index_template = get_template('home/index.html')
-        self.post_template = get_template('home/post.html')
-        self.taglist_template = get_template('home/taglist.html')
-        self.tag_template = get_template('home/tag.html')
-        self.notfound_template = get_template('home/e404.html')
-        self.archives_template = get_template('home/archives.html')
-
-    def handle(self, **options):
         self.posts = []
         for md_dir in tqdm.tqdm(glob.glob(os.path.join(self.post_dir, '*.md'))):
             basename = os.path.basename(md_dir)

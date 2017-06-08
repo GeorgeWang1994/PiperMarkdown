@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
-from PiperDjango.settings import BASE_DIR, STATIC_ROOT, MENU_DIR, BLOG_CONFIG
-from Piper.select_result import read_file, write_file, removeFolders, copyFiles
+from PiperDjango.settings import BASE_DIR, STATIC_ROOT, MENU_DIR, BLOG_CONFIG, GIT_CONFIG
+from Piper.select_result import read_file, write_file, copyFiles, overiteCreateFiles
 from Piper.models import PiperPost, OtherPost
 from django.template.loader import get_template
 import os.path, tqdm, glob
@@ -15,7 +15,7 @@ class Command(BaseCommand):
     def __init__(self, *args, **kwargs):
         super(Command, self).__init__(*args, **kwargs)
         self.post_dir = os.path.join(BASE_DIR, 'posts')
-
+        self.pro_dir = os.path.join(BASE_DIR, GIT_CONFIG["GIT_REPO"])
         self.index_template = get_template('home/index.html')
         self.post_template = get_template('home/post.html')
         self.taglist_template = get_template('home/taglist.html')
@@ -24,18 +24,15 @@ class Command(BaseCommand):
         self.archives_template = get_template('home/archives.html')
 
     def handle(self, **options):
+        if not os.path.exists(self.pro_dir):
+            print('Please init first')
+            return
 
-        if os.path.exists(BASE_DIR + '/public'):
-            removeFolders(BASE_DIR + '/public')
-        os.mkdir(BASE_DIR + '/public')
+        overiteCreateFiles(self.pro_dir + '/static')
+        copyFiles(STATIC_ROOT, self.pro_dir + '/static')
 
-        self.public_dir = os.path.join(BASE_DIR, 'public')
-
-        os.mkdir(self.public_dir + '/static')
-        copyFiles(STATIC_ROOT, self.public_dir + '/static')
-
-        os.mkdir(os.path.join(self.public_dir, 'posts'))
-        self.public_post_dir = os.path.join(self.public_dir, 'posts')
+        overiteCreateFiles(os.path.join(self.pro_dir, 'posts'))
+        self.public_post_dir = os.path.join(self.pro_dir, 'posts')
 
         self.posts = []
         for md_dir in tqdm.tqdm(glob.glob(os.path.join(self.post_dir, '*.md'))):
@@ -59,15 +56,15 @@ class Command(BaseCommand):
     def handleIndex(self):
         post_html = self.index_template.render(context={'posts': self.posts,
                                                         'recents': self.posts[:5], 'BLOG_CONFIG': BLOG_CONFIG})
-        write_file(os.path.join(self.public_dir, 'index.html'), post_html)
+        write_file(os.path.join(self.pro_dir, 'index.html'), post_html)
 
     # 渲染关于/链接/项目
     def handleOther(self):
         urls = ['about_me', 'link', 'projects']
         files = ['about-me.md', 'links.md', 'projects.md']
         for i, file in enumerate(files):
-            file_dir = os.path.join(self.public_dir, urls[i])
-            os.mkdir(file_dir)
+            file_dir = os.path.join(self.pro_dir, urls[i])
+            overiteCreateFiles(file_dir)
             markdown = read_file(os.path.join(MENU_DIR, file))
             post = OtherPost(file[:-3], markdown)
             file_html = self.post_template.render(context={'post': post, 'BLOG_CONFIG': BLOG_CONFIG})
@@ -75,8 +72,8 @@ class Command(BaseCommand):
 
     # 渲染目录
     def handleArchives(self):
-        file_dir = os.path.join(self.public_dir, 'archives')
-        os.mkdir(file_dir)
+        file_dir = os.path.join(self.pro_dir, 'archives')
+        overiteCreateFiles(file_dir)
 
         local_archives = {}
         count = 0
@@ -97,8 +94,8 @@ class Command(BaseCommand):
 
     # 渲染标签列表
     def handleTagList(self):
-        file_dir = os.path.join(self.public_dir, 'taglist')
-        os.mkdir(file_dir)
+        file_dir = os.path.join(self.pro_dir, 'taglist')
+        overiteCreateFiles(file_dir)
 
         local_taglist = {}
         for post in self.posts:

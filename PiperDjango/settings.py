@@ -138,9 +138,10 @@ STATIC_URL = '/static/'
 
 
 GIT_CONFIG = {
-    'GIT_SITE': 'https://github.com/1414648814',
-    'GIT_REPO': '1414648814.github.io',
+    'GIT_SITE': 'https://github.com/GeorgeWang1994',
+    'GIT_REPO': 'GeorgeWang1994.github.io',
     'GIT_BRANCH': 'master',
+    'GIT' : 'https://github.com/GeorgeWang1994/GeorgeWang1994.github.io.git'
 }
 
 BLOG_CONFIG = {

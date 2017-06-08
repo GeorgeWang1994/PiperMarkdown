@@ -59,6 +59,12 @@ def removeFolders(path):
     shutil.rmtree(path)
 
 
+def overiteCreateFiles(path):
+    if os.path.exists(path):
+        removeFolders(path)
+    os.mkdir(path)
+
+
 def getCurTime():  # 返回当前的日期，以便在创建指定目录的时候用
     nowTime = time.localtime()
     year = str(nowTime.tm_year)

@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^taglist/(?P<tag_name>.*)$', piper_views.taglist, name='taglist'),
     url(r'^taglist/$', piper_views.taglist, name='taglist'),
     url(r'^posts/(?P<title>.*)$', piper_views.posts, name='posts'),
+    url(r'^pages/(?P<page>.*)/$', piper_views.pages, name='pages'),
 ]

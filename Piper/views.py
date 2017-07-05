@@ -40,3 +40,8 @@ def projects(request):
 # 文章
 def posts(request, title):
     return HttpResponse('<h2>OK</h2>')
+
+
+# 分页
+def pages(request, page):
+    return HttpResponse('<h2>OK</h2>')

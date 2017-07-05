@@ -1,4 +1,4 @@
-* title: Redis总结
+* title: asdasdasd
 * post_date: 2017-06-05 17:05:14
 * last_modify_date: 2017-06-05 17:05:14
 * tags:

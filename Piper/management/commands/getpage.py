@@ -3,6 +3,7 @@ from PiperDjango.settings import BASE_DIR, STATIC_ROOT, MENU_DIR, BLOG_CONFIG, G
 from Piper.select_result import read_file, write_file, copyFiles, overiteCreateFiles
 from Piper.models import PiperPost, OtherPost
 from django.template.loader import get_template
+from django.core.paginator import Paginator, EmptyPage
 import os.path, tqdm, glob
 
 
@@ -16,6 +17,7 @@ class Command(BaseCommand):
         super(Command, self).__init__(*args, **kwargs)
         self.post_dir = os.path.join(BASE_DIR, 'posts')
         self.pro_dir = os.path.join(BASE_DIR, GIT_CONFIG["GIT_REPO"])
+        self.page_dir = os.path.join(self.pro_dir, 'pages')
         self.index_template = get_template('home/index.html')
         self.post_template = get_template('home/post.html')
         self.taglist_template = get_template('home/taglist.html')
@@ -32,7 +34,9 @@ class Command(BaseCommand):
         copyFiles(STATIC_ROOT, self.pro_dir + '/static')
 
         overiteCreateFiles(os.path.join(self.pro_dir, 'posts'))
-        self.public_post_dir = os.path.join(self.pro_dir, 'posts')
+        self.public_post_dir = os.path.join(self.pro_dir, 'posts') # 这个是渲染后的文章的路径
+
+        overiteCreateFiles(os.path.join(self.pro_dir, 'pages'))
 
         self.posts = []
         for md_dir in tqdm.tqdm(glob.glob(os.path.join(self.post_dir, '*.md'))):
@@ -47,6 +51,7 @@ class Command(BaseCommand):
         sorted(self.posts, key=lambda d: d.post_date, reverse=True)
 
         self.handleIndex()
+        self.handlePages()
         self.handleOther()
         self.handleArchives()
         self.handleTagList()
@@ -54,9 +59,31 @@ class Command(BaseCommand):
 
     # 渲染主界面
     def handleIndex(self):
-        post_html = self.index_template.render(context={'posts': self.posts,
+        paginator = Paginator(self.posts, BLOG_CONFIG["BLOG_PER_PAGE"])
+        posts = paginator.page(1)
+        post_html = self.index_template.render(context={'posts': posts,
                                                         'recents': self.posts[:5], 'BLOG_CONFIG': BLOG_CONFIG})
         write_file(os.path.join(self.pro_dir, 'index.html'), post_html)
+
+    def handlePages(self):
+        if not os.path.exists(self.page_dir):
+            overiteCreateFiles(os.path.join(self.pro_dir, 'pages'))
+
+        # 分页文章
+        paginator = Paginator(self.posts, BLOG_CONFIG["BLOG_PER_PAGE"])
+
+        for i in range(1, paginator.num_pages + 1):
+            try:
+                posts = paginator.page(i)
+            except EmptyPage:
+                posts = paginator.page(paginator.num_pages)
+            per_page_dir = os.path.join(self.page_dir, str(i))
+            overiteCreateFiles(per_page_dir)
+            post_html = self.index_template.render(context={'posts': posts,
+                                                            'recents': self.posts[:5],
+                                                            'BLOG_CONFIG': BLOG_CONFIG})
+
+            write_file(os.path.join(per_page_dir, 'index.html'), post_html)
 
     # 渲染关于/链接/项目
     def handleOther(self):
@@ -131,6 +158,9 @@ class Command(BaseCommand):
 
     # 渲染文章
     def handlePost(self):
+        if not os.path.exists(self.public_post_dir):
+            overiteCreateFiles(os.path.join(self.pro_dir, 'posts'))
+
         for post in self.posts:
             post_html_dir = os.path.join(self.public_post_dir, post.title)
             os.mkdir(post_html_dir)

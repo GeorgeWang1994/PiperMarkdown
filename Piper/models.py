@@ -12,7 +12,7 @@ class BasePost:
         self.meta['body'] = self.body
         self.body_html = render_markdown(self.body)
         self.meta['body_html'] = self.body_html
-        self.summary = self.body_html[:200]
+        self.summary = "".join(re.findall(r"<p>(.*?)</p>", self.body_html, re.S))[:200]
         self.meta['summary'] = self.summary
         self._get_meta(self.header)
 
@@ -91,6 +91,7 @@ class OtherPost(BasePost):
         super().__init__(basename, markdown)
 
 
+# 标签
 class PiperTag:
     def __init__(self, name):
         self.name = name

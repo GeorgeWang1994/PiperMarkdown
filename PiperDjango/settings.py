@@ -57,7 +57,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'Piper.middleware.ShowSqlMiddleware',
 ]
 
 # 顶层分发器
@@ -81,17 +80,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'PiperDjango.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
 
 
 # Password validation
@@ -132,22 +120,25 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# STATICFILES_DIRS = (
-#     '/Users/wangdading/Documents/GitProject/PiperDjango/Piper/static/',
-# )
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'Piper/static'),
+)
 
 
 GIT_CONFIG = {
     'GIT_SITE': 'https://github.com/GeorgeWang1994',
     'GIT_REPO': 'GeorgeWang1994.github.io',
     'GIT_BRANCH': 'master',
-    'GIT' : 'https://github.com/GeorgeWang1994/GeorgeWang1994.github.io.git'
+    'GIT_EMAIL': 'georgewang1994@163.com',  # 用来push
+    'GIT_USERNAME': 'GeorgeWang1994',
+    'GIT': 'https://github.com/GeorgeWang1994/GeorgeWang1994.github.io.git'
 }
 
 BLOG_CONFIG = {
     'BLOG_NAME': 'George1994',
     'BLOG_DESC': 'George1994 is great',
     'BLOG_ICON': 'favicon.ico',
+    'BLOG_PER_PAGE': 5,
     'BLOG_BG': 'background.jpg',
     'USER_NAME': 'George1994',
     'USER_ICON': 'avater.jpg',

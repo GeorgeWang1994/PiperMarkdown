@@ -1,7 +1,9 @@
+#-*- coding:utf-8 –*-
 from django.core.management.base import BaseCommand
 from PiperDjango.settings import GIT_CONFIG, BASE_DIR
 from git import Repo
 import os.path
+import pprint
 
 
 class Command(BaseCommand):
@@ -21,12 +23,18 @@ class Command(BaseCommand):
         repo = Repo.init(path=self.pro_dir)
         repo.git.status()
         config = repo.config_writer()
-        config.set_value("user", "email", "georgewang1994@163.com")
-        config.set_value("user", "name", "GeorgeWang1994")
+        config.set_value("user", "email", GIT_CONFIG["GIT_EMAIL"])
+        config.set_value("user", "name", GIT_CONFIG["GIT_USERNAME"])
         files = repo.git.diff(None, name_only=True)
-        for f in files.split('\n'):
-            repo.git.add(f)
-            repo.git.commit('-m', 'commit')
-        repo.git.status(repo.heads.master)
-        repo.git.push()
-        print('----done----')
+        files = files.split('\n')
+
+        try:
+            for f in files:
+                repo.git.add(f)
+                repo.git.commit('-m', 'commit')
+            repo.git.status(repo.heads.master)
+            repo.git.push()
+            print('----done----')
+        except Exception as e:
+            pprint.pprint(e)
+            print('----error----')

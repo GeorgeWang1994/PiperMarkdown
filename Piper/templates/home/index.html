@@ -34,15 +34,27 @@
                     <small class="date-right">{{ post.post_date }}</small>
                 </h2>
                 <article>
-                {{ post.body_html| safe}}
+                    <p>{{ post.summary }}...</p>
                 </article>
                 <hr>
             {% endfor %}
+              <div class="pagination" style="float: right;">
+                <span class="step-links">
+                    {% if posts.has_previous %}
+                        <a href="{% url 'Piper:pages' posts.previous_page_number %}">上一页</a>
+                    {% endif %}
+
+                    <span class="current">
+                        <a href="#">{{ posts.number }}</a>
+                    </span>
+
+                    {% if posts.has_next %}
+                        <a href="{% url 'Piper:pages' posts.next_page_number %}">下一页</a>
+                    {% endif %}
+                </span>
+              </div>
           {% endblock %}
           </div>
-
-          {% block bottom %}
-          {% endblock %}
         </div>
         <div class="curtain">
             <div class="avater">

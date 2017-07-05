@@ -15,9 +15,13 @@ class Command(BaseCommand):
         self.pro_dir = os.path.join(BASE_DIR, GIT_CONFIG["GIT_REPO"])
 
     def handle(self, **options):
-        if os.path.exists(self.pro_dir):
-            removeFolders(self.pro_dir)
+        print("waiting...")
         try:
-            git.Repo.clone_from(GIT_CONFIG['GIT'], self.pro_dir)
+            if os.path.exists(self.pro_dir):
+                repo = git.Repo(self.pro_dir)
+                repo.remotes.origin.pull()
+            else:
+                git.Repo.clone_from(GIT_CONFIG['GIT'], self.pro_dir)
         except Exception as err:
             print(err)
+        print("init done!")

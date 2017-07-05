@@ -30,6 +30,8 @@ class Command(BaseCommand):
             print('Please init first')
             return
 
+        print("wait...")
+
         overiteCreateFiles(self.pro_dir + '/static')
         copyFiles(STATIC_ROOT, self.pro_dir + '/static')
 
@@ -56,6 +58,8 @@ class Command(BaseCommand):
         self.handleArchives()
         self.handleTagList()
         self.handlePost()
+
+        print("getpage done!")
 
     # 渲染主界面
     def handleIndex(self):

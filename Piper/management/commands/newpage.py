@@ -25,6 +25,7 @@ class Command(BaseCommand):
         parser.add_argument('args', metavar='page_name', nargs='+')
 
     def handle(self, *args, **options):
+        print("wait...")
         for page in args:
             page_dir = self.post_dir + '/' + page+'.md'
             if not os.path.exists(page_dir):
@@ -43,3 +44,4 @@ class Command(BaseCommand):
                     fp.write('your post\n')
             else :
                 print('the page {0} is existed, please rename it'.format(page))
+        print("newpage done!")
